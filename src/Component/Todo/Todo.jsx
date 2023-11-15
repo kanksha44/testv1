@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { RxCross1 } from "react-icons/rx";
 import "./Todo.css";
+import axios from "axios";
+import jsonData from "../../data.json";
 
 const Todo = () => {
   const [flatPayout, setFlatPayout] = useState("");
   const [selectedSubProducts, setSelectedSubProducts] = useState([]);
+  const [subProductData, setSubProductData] = useState([]);
+
+  // setSubProductData(jsonData);
+  // console.log("jsonData", jsonData);
 
   const handleFlatPayoutChange = (event) => {
     setFlatPayout(event.target.value);
@@ -21,18 +27,26 @@ const Todo = () => {
   const handleCheckboxChange = (event, subProductId) => {
     const isChecked = event.target.checked;
     if (isChecked) {
+      // Add selected sub-product if checkbox is checked
       const newSelectedSubProduct = { subProductId, percentage: flatPayout };
-      setSelectedSubProducts([...selectedSubProducts, newSelectedSubProduct]);
+      setSelectedSubProducts((prevSelectedSubProducts) => [
+        ...prevSelectedSubProducts,
+        newSelectedSubProduct,
+      ]);
     } else {
-      const updatedSubProducts = selectedSubProducts.filter(
-        (item) => item.subProductId !== subProductId
+      // Remove selected sub-product if checkbox is unchecked
+      setSelectedSubProducts((prevSelectedSubProducts) =>
+        prevSelectedSubProducts.filter(
+          (item) => item.subProductId !== subProductId
+        )
       );
-      setSelectedSubProducts(updatedSubProducts);
     }
   };
+
   useEffect(() => {
     // Log selected sub-products whenever selectedSubProducts changes
     console.log("Selected Sub-Products:", selectedSubProducts);
+    setSubProductData(jsonData);
   }, [selectedSubProducts]);
 
   return (
@@ -94,129 +108,37 @@ const Todo = () => {
               Select All
             </label>
           </div>
+          {subProductData.map((item) => (
+            <React.Fragment key={item.id}>
+              <div className="col-12 mb-3 mt-3 d-flex justify-content-between">
+                <div className="raio-btn">
+                  {" "}
+                  <input
+                    type="checkbox"
+                    id={`sub-product-${item.id}`}
+                    name={`sub-product-${item.id}`}
+                    onChange={(e) =>
+                      handleCheckboxChange(e, item.id.toString())
+                    }
+                  />
+                  <label className="ms-2" htmlFor={`sub-product-${item.id}`}>
+                    {item.category_name}
+                  </label>
+                </div>
+                <input
+                  type="number"
+                  className="sub-product-payout"
+                  value={flatPayout}
+                  onChange={handleFlatPayoutSelect}
+                />
+              </div>
+            </React.Fragment>
+          ))}
 
-          <div className="col-12 mb-3 mt-3 d-flex justify-content-between">
-            <div className="raio-btn">
-              {" "}
-              <input
-                type="checkbox"
-                id="homeLoan"
-                name="homeLoan"
-                onChange={(e) => handleCheckboxChange(e, "1")}
-              />
-              <label className="ms-2" htmlFor="selectall">
-                Home Loan
-              </label>
+          <div>
+            <div className="col-12 text-center">
+              <button className="col-6 btn btn-primary">Submit</button>
             </div>
-            <input
-              type="number"
-              className="sub-product-payout"
-              value={flatPayout}
-              onChange={handleFlatPayoutSelect}
-            />
-          </div>
-          <div className="col-12 mb-3 d-flex justify-content-between">
-            <div className="raio-btn">
-              {" "}
-              <input
-                type="checkbox"
-                id="loanAgainstProperty"
-                name="loanAgainstProperty"
-                onChange={(e) => handleCheckboxChange(e, "2")}
-              />
-              <label className="ms-2" htmlFor="loanAgainstProperty">
-                Loan Against Property
-              </label>
-            </div>
-            <input
-              type="number"
-              className="sub-product-payout"
-              value={flatPayout}
-              onChange={handleFlatPayoutSelect}
-            />
-          </div>
-          <div className="col-12 mb-3 d-flex justify-content-between">
-            <div className="raio-btn">
-              {" "}
-              <input
-                type="checkbox"
-                id="PersonalLoan"
-                name="PersonalLoan"
-                onChange={(e) => handleCheckboxChange(e, "3")}
-              />
-              <label className="ms-2" htmlFor="sePersonal Loanlectall">
-                Personal Loan
-              </label>
-            </div>
-            <input
-              type="number"
-              className="sub-product-payout"
-              value={flatPayout}
-              onChange={handleFlatPayoutSelect}
-            />
-          </div>
-          <div className="col-12 mb-3 d-flex justify-content-between">
-            <div className="raio-btn">
-              {" "}
-              <input
-                type="checkbox"
-                id=" BuisnessLoan"
-                name=" BuisnessLoan"
-                onChange={(e) => handleCheckboxChange(e, "4")}
-              />
-              <label className="ms-2" htmlFor=" Buisnessoan">
-                Buisness Loan
-              </label>
-            </div>
-            <input
-              type="number"
-              className="sub-product-payout"
-              value={flatPayout}
-              onChange={handleFlatPayoutSelect}
-            />
-          </div>
-          <div className="col-12 mb-3 d-flex justify-content-between">
-            <div className="raio-btn">
-              {" "}
-              <input
-                type="checkbox"
-                id="  LifeInsurance"
-                name="  LifeInsurance"
-                onChange={(e) => handleCheckboxChange(e, "5")}
-              />
-              <label className="ms-2" htmlFor="LifeInsurance">
-                Life Insurance
-              </label>
-            </div>
-            <input
-              type="number"
-              className="sub-product-payout"
-              value={flatPayout}
-              onChange={handleFlatPayoutSelect}
-            />
-          </div>
-          <div className="col-12 mb-3 d-flex justify-content-between">
-            <div className="raio-btn">
-              {" "}
-              <input
-                type="checkbox"
-                id="   HealthInsurance"
-                name="   HealthInsurance"
-                onChange={(e) => handleCheckboxChange(e, "6")}
-              />
-              <label className="ms-2" htmlFor="HealthInsurance">
-                Health Insurance
-              </label>
-            </div>
-            <input
-              type="number"
-              className="sub-product-payout"
-              value={flatPayout}
-              onChange={handleFlatPayoutSelect}
-            />
-          </div>
-          <div className="col-12 text-center">
-            <button className="col-6 btn btn-primary">Submit</button>
           </div>
         </div>
       </div>
