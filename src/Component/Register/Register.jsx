@@ -12,7 +12,6 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleRegister = () => {
-    // Assuming all fields are required for registration
     if (userName && email && password) {
       const user = {
         userName,
