@@ -9,9 +9,15 @@ const Todo = () => {
   const [flatPayout, setFlatPayout] = useState("");
   const [selectedSubProducts, setSelectedSubProducts] = useState([]);
   const [subProductData, setSubProductData] = useState([]);
+  const [selectedRadio, setSelectedRadio] = useState("flatPayout");
+  const [isProductSelected, setIsProductSelected] = useState(false);
 
   const navigate = useNavigate();
 
+  const handleProductSelect = (event) => {
+    const selectedProduct = event.target.value;
+    setIsProductSelected(!!selectedProduct);
+  };
   const handleFlatPayoutChange = (event) => {
     setFlatPayout(event.target.value);
   };
@@ -19,6 +25,13 @@ const Todo = () => {
     navigate("/home");
   };
 
+  const handleRadioChange = (selectedOption) => {
+    setSelectedRadio(selectedOption);
+    if (selectedOption === "flatPayout") {
+      setFlatPayout("");
+    }
+    window.location.reload();
+  };
   const handleFlatPayoutSelect = () => {
     const otherInputs = document.querySelectorAll(".sub-product-payout");
     otherInputs.forEach((input) => {
@@ -27,6 +40,11 @@ const Todo = () => {
   };
 
   const handleCheckboxChange = (event, subProductId) => {
+    if (!isProductSelected) {
+      alert("Please select a product first to input the payout percentage.");
+      event.preventDefault();
+      return;
+    }
     const isChecked = event.target.checked;
     if (isChecked) {
       const newSelectedSubProduct = { subProductId, percentage: flatPayout };
@@ -41,6 +59,40 @@ const Todo = () => {
         )
       );
     }
+  };
+
+  const getSubProductPayoutValue = (subProductId) => {
+    const selectedSubProduct = selectedSubProducts.find(
+      (item) => item.subProductId === subProductId
+    );
+    return selectedSubProduct ? selectedSubProduct.percentage : "";
+  };
+  const handleSubProductPayoutChange = (event, subProductId) => {
+    if (!isProductSelected) {
+      alert("Please select a product first to input the payout percentage.");
+      event.preventDefault();
+      return;
+    }
+    const newPayoutValue = event.target.value;
+    const updatedSelectedSubProducts = [...selectedSubProducts];
+
+    const index = updatedSelectedSubProducts.findIndex(
+      (item) => item.subProductId === subProductId
+    );
+
+    if (index !== -1) {
+      updatedSelectedSubProducts[index] = {
+        subProductId,
+        percentage: newPayoutValue,
+      };
+    } else {
+      updatedSelectedSubProducts.push({
+        subProductId,
+        percentage: newPayoutValue,
+      });
+    }
+
+    setSelectedSubProducts(updatedSelectedSubProducts);
   };
 
   useEffect(() => {
@@ -73,11 +125,21 @@ const Todo = () => {
           <div className="col-12 d-flex flex-column mb-2">
             <span className="mt-3">
               {" "}
-              <input type="radio" /> Set flat payout% for all sub-products
+              <input
+                type="radio"
+                checked={selectedRadio === "flatPayout"}
+                onChange={() => handleRadioChange("flatPayout")}
+              />{" "}
+              Set flat payout% for all sub-products
             </span>
             <span className="mt-3">
               {" "}
-              <input type="radio" /> Set payout % per sub-product
+              <input
+                type="radio"
+                checked={selectedRadio === "perSubProduct"}
+                onChange={() => handleRadioChange("perSubProduct")}
+              />{" "}
+              Set payout % per sub-product
             </span>
           </div>
           <div className="col-12 m-2 d-flex justify-content-between">
@@ -85,13 +147,26 @@ const Todo = () => {
 
             <div className="input-num">
               {" "}
-              <input
-                type="number"
-                className="flat-payout"
-                value={flatPayout}
-                onChange={handleFlatPayoutChange}
-              />
-              <span> %</span>
+              {selectedRadio === "flatPayout" ? (
+                <>
+                  <input
+                    type="number"
+                    className="flat-payout"
+                    value={flatPayout}
+                    onChange={handleFlatPayoutChange}
+                  />
+                  <span> %</span>
+                </>
+              ) : (
+                <input
+                  type="number"
+                  className="flat-payout"
+                  value={flatPayout}
+                  onChange={handleFlatPayoutChange}
+                  style={{ display: "none" }}
+                  disabled
+                />
+              )}
             </div>
           </div>
 
@@ -106,6 +181,8 @@ const Todo = () => {
               id="selectall"
               name="selectall"
               value="selectall"
+              checked
+              onChange={handleProductSelect}
             />
             <label className="ms-2" htmlFor="selectall">
               Select All
@@ -128,12 +205,23 @@ const Todo = () => {
                     {item.category_name}
                   </label>
                 </div>
-                <input
-                  type="number"
-                  className="sub-product-payout"
-                  value={flatPayout}
-                  onChange={handleFlatPayoutSelect}
-                />
+                {selectedRadio === "perSubProduct" ? (
+                  <input
+                    type="number"
+                    className="sub-product-payout"
+                    value={getSubProductPayoutValue(item.id)}
+                    onChange={(e) =>
+                      handleSubProductPayoutChange(e, item.id.toString())
+                    }
+                  />
+                ) : (
+                  <input
+                    type="number"
+                    className="sub-product-payout"
+                    value={flatPayout}
+                    onChange={handleFlatPayoutSelect}
+                  />
+                )}
               </div>
             </React.Fragment>
           ))}

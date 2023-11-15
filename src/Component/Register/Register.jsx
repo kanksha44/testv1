@@ -24,6 +24,9 @@ const Register = () => {
 
       localStorage.setItem("users", JSON.stringify(existingUsers));
 
+      localStorage.setItem("loggedInUser", userName); 
+
+
       setUserName("");
       setEmail("");
       setPassword("");

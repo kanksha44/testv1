@@ -31,7 +31,7 @@
 }
 
 /* modal */
-.modal-dialog,
+/* .modal-dialog,
 .modal .right {
   position: fixed;
   margin: auto;
@@ -41,9 +41,9 @@
   -ms-transform: translate3d(0%, 0, 0);
   -o-transform: translate3d(0%, 0, 0);
   transform: translate3d(0%, 0, 0);
-}
+} */
 
-.modal-content,
+/* .modal-content,
 .modal .right .modal-content {
   height: 100%;
   overflow-y: auto;
@@ -52,10 +52,10 @@
 .modal-body,
 .modal .right .modal-body {
   padding: 15px 15px 80px;
-}
+} */
 
 /*Right*/
-.modal.right.fade .modal-dialog {
+/* .modal.right.fade .modal-dialog {
   right: -470px;
   -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
   -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
@@ -63,12 +63,12 @@
   transition: opacity 0.3s linear, right 0.3s ease-out;
 }
 
-.modal  .right.fade.in .modal-dialog {
+.modal .right.fade.in .modal-dialog {
   right: 0;
-}
+} */
 
 /* ----- MODAL STYLE ----- */
-.modal-content {
+/* .modal-content {
   border-radius: 0;
   border: none;
 }
@@ -76,7 +76,85 @@
 .modal-header {
   border-bottom-color: #eeeeee;
   background-color: #fafafa;
-}
-
+} */
 
 /* modal */
+/* UserList.css */
+
+.custom-modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* width: 50%; */
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  /* margin: 15% auto; */
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  justify-content: end;
+  align-items: end;
+}
+.modal-body {
+  background-color: #fff;
+  padding: 1rem !important;
+  /* width: 400px; */
+  flex: 1;
+  /* overflow-y: auto; */
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.header-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 1px solid gray;
+}
+.header-custom {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid gray;
+}
+.header-contents {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-direction: column;
+}
+.body-sidepanel {
+  border-bottom: 1px solid gray;
+}
+.div1 span {
+  margin-left: 20px;
+}
+.user-icon {
+  height: 40px;
+}
+.full-name,
+.roles,
+.last-login {
+  color: gray;
+}

@@ -17,7 +17,9 @@ const Login = ({ setAuth }) => {
     );
 
     if (user) {
-      localStorage.setItem("token", "yourAuthToken"); // Store some token upon successful login
+      localStorage.setItem("token", "yourAuthToken");
+      localStorage.setItem("loggedInUser", user.userName);
+
       setAuth(true);
       alert("Login successful!");
       navigate("/home");

@@ -6,6 +6,8 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import { GoPlus } from "react-icons/go";
 import { IoArrowBackCircleSharp } from "react-icons/io5";
+import { FaRegUserCircle } from "react-icons/fa";
+import { IoStatsChartOutline } from "react-icons/io5";
 
 import "./UserList.css";
 
@@ -28,6 +30,8 @@ const formatTime = (timeString) => {
 
 const UserList = () => {
   const [usersData, setUsersData] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -47,6 +51,18 @@ const UserList = () => {
 
   const handleBack = () => {
     navigate("/home");
+  };
+
+  const handleUserClick = (userId) => {
+    console.log("hello", userId);
+    const user = usersData.find((user) => user.id === userId);
+    setSelectedUser(user);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedUser(null);
+    setShowModal(false);
   };
 
   return (
@@ -100,8 +116,8 @@ const UserList = () => {
               </tr>
             </thead>
             <tbody>
-              {usersData.map((user, index) => (
-                <tr key={index}>
+              {usersData.map((user) => (
+                <tr key={user.id}>
                   <td>
                     <div className="d-flex align-items-center">
                       <img
@@ -112,10 +128,10 @@ const UserList = () => {
                       />
                       <div className="ms-3">
                         <p
-                          // onClick={() => handleUserClick(user)}
+                          onClick={() => handleUserClick(user.id)}
                           className="fw-bold mb-1 user-name"
-                          data-bs-toggle="modal"
-                          data-bs-target="#myModal2"
+                          // data-bs-toggle="modal"
+                          // data-bs-target="#myModal2"
                         >
                           {`${user.firstName} ${user.lastName}`}
                         </p>
@@ -134,48 +150,103 @@ const UserList = () => {
           </table>
 
           {/* modal */}
+          {selectedUser && showModal && (
+            // <div
+            //   className="modal fade right"
+            //   id="myModal2"
+            //   tabIndex="-1"
+            //   role="dialog"
+            //   aria-labelledby="myModalLabel2"
+            //   onClick={handleCloseModal}
+            // >
+            //   <div className="modal-dialog" role="document">
+            //     <div className="modal-content">
+            //       <div className="modal-header">
+            //         <button
+            //           type="button"
+            //           className="close"
+            //           data-dismiss="modal"
+            //           aria-label="Close"
+            //         >
+            //           <span aria-hidden="true">&times;</span>
+            //         </button>
+            //         <h4 className="modal-title" id="myModalLabel2">
+            //           User Details
+            //         </h4>
+            //       </div>
 
-          <div
-            className="modal fade right"
-            id="myModal2"
-            tabIndex="-1"
-            role="dialog"
-            aria-labelledby="myModalLabel2"
-          >
-            <div className="modal-dialog" role="document">
+            //       <div className="modal-body">
+            //         <p>
+            //           Name:{" "}
+            //           {`${selectedUser.firstName} ${selectedUser.lastName}`}
+            //         </p>
+            //         <p>Email: {selectedUser.email}</p>
+            //         <p>Phone: {selectedUser.phone}</p>
+            //       </div>
+            //     </div>
+            //   </div>
+            // </div>
+
+            <div className="custom-modal">
               <div className="modal-content">
-                <div className="modal-header">
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <h4 className="modal-title" id="myModalLabel2">
-                    User Details
-                  </h4>
-                </div>
-
+                <span className="close" onClick={handleCloseModal}>
+                  &times;
+                </span>
                 <div className="modal-body">
-                  <p>
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life
-                    accusamus terry richardson ad squid. 3 wolf moonskateboard
-                    dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                    Brunch 3 wolf moon tempor, sunt aliqua put a bird on it
-                    squid single-origin coffee nulla assumenda shoreditch et.
-                    Nihil anim keffiyeh helvetica, craft beer labore wes
-                    anderson cred nesciunt sapiente ea proident. Ad vegan
-                    excepteur butcher vice lomo. Leggings occaecat craft beer
-                    farm-to-table, raw denim aesthetic synth nesciunt you
-                    probably haven't heard of them accusamus labore sustainable
-                    VHS.
-                  </p>
+                  <h4 className="m-4">User Details</h4>
+                  {selectedUser && (
+                    <>
+                      <div className="header-custom m-4">
+                        <img
+                          src={selectedUser.image}
+                          alt={selectedUser.firstName}
+                          className="header-img"
+                        />
+                        <div className="header-contents m-4">
+                          <p>
+                            {`${selectedUser.firstName} ${selectedUser.lastName}`}
+                          </p>
+                          <p>{selectedUser.id}</p>
+                          <button className="btn btn-success rounded-5">
+                            Active
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="body-sidepanel m-3">
+                        <div className="div1">
+                          <FaRegUserCircle className="user-icon m-3" />
+                          <span className="m-1">Basic & Account Details</span>
+                        </div>
+                        <div className="div2 d-flex flex-column m-3">
+                          <span>
+                            {`${selectedUser.firstName} ${selectedUser.lastName}`}
+                          </span>
+                          <span className="full-name">Full Name</span>
+                        </div>
+                        <div className="div3 d-flex flex-column m-3">
+                          <span>{selectedUser.company.department}</span>
+                          <span className="roles">Roles</span>
+                        </div>
+                      </div>
+
+                      <div className="div4 m-3">
+                        {" "}
+                        <IoStatsChartOutline className="m-3" />
+                        <span>User Data</span>
+                      </div>
+                      <div className="div-5">
+                        <span className=" d-flex flex-column m-4">
+                          {formatTime(selectedUser.birthDate)}
+                        </span>
+                        <span className="last-login m-4">Last Login</span>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
-          </div>
+          )}
           {/* modal */}
         </div>
       </div>
