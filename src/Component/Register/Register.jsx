@@ -60,7 +60,7 @@ const Register = () => {
               <div className="col-6 input-group mb-3">
                 <input
                   type="text"
-                  className="form-control form-control-lg fs-6 custom-input"
+                  className="form-control form-control-lg fs-6 bg-light custom-input"
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
                 />
@@ -69,7 +69,7 @@ const Register = () => {
               <div className="col-6 input-group mb-3">
                 <input
                   type="text"
-                  className="form-control form-control-lg fs-6 custom-input"
+                  className="form-control form-control-lg fs-6 bg-light custom-input"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -94,7 +94,7 @@ const Register = () => {
               <div className="input-group mb-3">
                 <button
                   onClick={handleRegister}
-                  className="btn btn-lg w-100 fs-6"
+                  className="btn btn-primary w-100 fs-6"
                 >
                   Register
                 </button>

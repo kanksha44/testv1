@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Component/LoginPage/Login";
 import Register from "./Component/Register/Register";
@@ -8,24 +8,32 @@ import UserList from "./Component/UserList/UserList";
 import ToDo from "./Component/Todo/Todo";
 
 function App() {
-  const isAuthenticated = localStorage.getItem("users") !== null;
+  const isAuthenticateds = localStorage.getItem("users") !== null;
+
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("token") !== null
+  );
+
+  const setAuth = (value) => {
+    setIsAuthenticated(value);
+  };
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setAuth={setAuth} />} />
         <Route path="/userlist" element={<UserList />} />
         <Route path="/todo" element={<ToDo />} />
         <Route
           path="/home"
           element={
-            <Protected isAuthenticated={isAuthenticated}>
+            <Protected isAuthenticated={isAuthenticated} setAuth={setAuth}>
               <Home />
             </Protected>
           }
         />
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to="/register" />} />
       </Routes>
     </BrowserRouter>
   );

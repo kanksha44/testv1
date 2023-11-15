@@ -4,7 +4,7 @@ import loginImg from "../../Assets/loginpage.png";
 import logoImg from "../../Assets/shipcom-logo-black.svg.jpg";
 import { useNavigate, Link } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ setAuth }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,6 +17,8 @@ const Login = () => {
     );
 
     if (user) {
+      localStorage.setItem("token", "yourAuthToken"); // Store some token upon successful login
+      setAuth(true);
       alert("Login successful!");
       navigate("/home");
     } else {
@@ -42,23 +44,45 @@ const Login = () => {
                 <h5 className="m-2">Welcome</h5>
                 <small>Login to Labs Monitoring System</small>
               </div>
-              <label htmlFor="">Email</label>
-              <div className="col-6 input-group mb-3">
-                <input
-                  type="text"
-                  className="form-control form-control-lg fs-6 custom-input"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <label htmlFor="">Password</label>
-              <div className="col- input-group mb-3">
-                <input
-                  type="password"
-                  className="form-control custom-input form-control-lg bg-light fs-6"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+
+              <div className="col-12  mt-4 d-flex flex-column justify-content-center align-items-center">
+                <div className="col-6 mb-3">
+                  <form action="">
+                    <div className="input-container">
+                      <input
+                        type="text"
+                        id="email"
+                        className="bg-light text-input"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        autoComplete="off"
+                        required
+                      />
+                      <label htmlFor="email" className="label-input">
+                        Email
+                      </label>
+                    </div>
+                  </form>
+                </div>
+
+                <div className="col-6 mb-3">
+                  <form action="">
+                    <div className="input-container">
+                      <input
+                        type="password"
+                        id="password"
+                        className="bg-light text-input"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        autoComplete="off"
+                        required
+                      />
+                      <label htmlFor="password" className="label-input">
+                        Password
+                      </label>
+                    </div>
+                  </form>
+                </div>
               </div>
 
               <div className="input-group mb-5 d-flex justify-content-end">
@@ -68,8 +92,11 @@ const Login = () => {
                   </small>
                 </div>
               </div>
-              <div className="input-group mb-3">
-                <button onClick={handleLogin} className="btn btn-lg w-100 fs-6">
+              <div className="d-flex justify-content-around align-item-center mb-3">
+                <button
+                  onClick={handleLogin}
+                  className="btn btn-primary w-50 fs-6"
+                >
                   Login
                 </button>
               </div>
