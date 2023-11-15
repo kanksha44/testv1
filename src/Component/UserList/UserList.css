@@ -1,0 +1,82 @@
+.has-search .form-control {
+  padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
+}
+.form-control-feedback {
+  margin-top: 7px;
+  margin-left: 8px;
+}
+.new-user-btn {
+  height: 40px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+.back-icon {
+  height: 2rem;
+  cursor: pointer;
+}
+.user-name {
+  cursor: pointer;
+}
+
+/* modal */
+.modal-dialog,
+.modal .right {
+  position: fixed;
+  margin: auto;
+  width: 320px;
+  height: 100%;
+  -webkit-transform: translate3d(0%, 0, 0);
+  -ms-transform: translate3d(0%, 0, 0);
+  -o-transform: translate3d(0%, 0, 0);
+  transform: translate3d(0%, 0, 0);
+}
+
+.modal-content,
+.modal .right .modal-content {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.modal-body,
+.modal .right .modal-body {
+  padding: 15px 15px 80px;
+}
+
+/*Right*/
+.modal.right.fade .modal-dialog {
+  right: -470px;
+  -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+  -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+  -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+  transition: opacity 0.3s linear, right 0.3s ease-out;
+}
+
+.modal  .right.fade.in .modal-dialog {
+  right: 0;
+}
+
+/* ----- MODAL STYLE ----- */
+.modal-content {
+  border-radius: 0;
+  border: none;
+}
+
+.modal-header {
+  border-bottom-color: #eeeeee;
+  background-color: #fafafa;
+}
+
+
+/* modal */
