@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { RxCross1 } from "react-icons/rx";
 import "./Todo.css";
-import axios from "axios";
 import jsonData from "../../data.json";
+import { IoArrowBackCircleSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const Todo = () => {
   const [flatPayout, setFlatPayout] = useState("");
   const [selectedSubProducts, setSelectedSubProducts] = useState([]);
   const [subProductData, setSubProductData] = useState([]);
 
-  // setSubProductData(jsonData);
-  // console.log("jsonData", jsonData);
+  const navigate = useNavigate();
 
   const handleFlatPayoutChange = (event) => {
     setFlatPayout(event.target.value);
   };
+  const handleBack = () => {
+    navigate("/home");
+  };
 
   const handleFlatPayoutSelect = () => {
-    // Logic to update other input fields with the flat payout value
     const otherInputs = document.querySelectorAll(".sub-product-payout");
     otherInputs.forEach((input) => {
       input.value = flatPayout;
@@ -27,14 +29,12 @@ const Todo = () => {
   const handleCheckboxChange = (event, subProductId) => {
     const isChecked = event.target.checked;
     if (isChecked) {
-      // Add selected sub-product if checkbox is checked
       const newSelectedSubProduct = { subProductId, percentage: flatPayout };
       setSelectedSubProducts((prevSelectedSubProducts) => [
         ...prevSelectedSubProducts,
         newSelectedSubProduct,
       ]);
     } else {
-      // Remove selected sub-product if checkbox is unchecked
       setSelectedSubProducts((prevSelectedSubProducts) =>
         prevSelectedSubProducts.filter(
           (item) => item.subProductId !== subProductId
@@ -44,7 +44,6 @@ const Todo = () => {
   };
 
   useEffect(() => {
-    // Log selected sub-products whenever selectedSubProducts changes
     console.log("Selected Sub-Products:", selectedSubProducts);
     setSubProductData(jsonData);
   }, [selectedSubProducts]);
@@ -56,6 +55,10 @@ const Todo = () => {
           <div className="col-12 m-3 d-flex justify-content-start">
             <RxCross1 className="mt-1" />
             <h5 className="ms-3">Add Proposed Products & Payment</h5>
+            <IoArrowBackCircleSharp
+              className="col-8 back-icon"
+              onClick={handleBack}
+            />
           </div>
           <div className="col-12 mb-4">
             <select name="product" id="product" className="w-100 dropproduct">
