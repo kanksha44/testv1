@@ -40,7 +40,7 @@ const UserList = () => {
       try {
         const response = await axios.get("https://dummyjson.com/users");
         setUsersData(response.data.users);
-        console.log("response", response.data.users);
+       // console.log("response", response.data.users);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -54,7 +54,7 @@ const UserList = () => {
   };
 
   const handleUserClick = (userId) => {
-    console.log("hello", userId);
+    console.log("userId", userId);
     const user = usersData.find((user) => user.id === userId);
     setSelectedUser(user);
     setShowModal(true);
