@@ -30,7 +30,7 @@ const Todo = () => {
     if (selectedOption === "flatPayout") {
       setFlatPayout("");
     }
-   // window.location.reload();
+    // window.location.reload();
   };
   const handleFlatPayoutSelect = () => {
     const otherInputs = document.querySelectorAll(".sub-product-payout");
